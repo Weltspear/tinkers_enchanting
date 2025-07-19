@@ -216,9 +216,13 @@ publishing {
 mixin {
     // MixinGradle Settings
     add sourceSets.main, 'mixins.te.refmap.json'
-    config 'mixins.mymod.json'
+    config 'mixins.te.json'
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 }

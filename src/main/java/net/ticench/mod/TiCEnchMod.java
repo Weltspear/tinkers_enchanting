@@ -10,6 +10,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mixins;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -31,8 +32,9 @@ public class TiCEnchMod
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-        MixinBootstrap.init();
-        Mixins.addConfiguration("mixins.te.refmap.json");
+        //MixinBootstrap.init();
+        //Mixins.addConfiguration("mixins.te.json");
+        //Mixins.addConfiguration("mixins.te.json");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
