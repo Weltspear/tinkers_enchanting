@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "net.ticench.mod.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "TinkerEnchantModifiableArmor",
+    "TinkerEnchantModifiableItem"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
