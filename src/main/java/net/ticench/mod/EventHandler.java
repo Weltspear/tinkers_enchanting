@@ -23,6 +23,8 @@ import static net.minecraft.world.item.Items.ENCHANTED_BOOK;
 
 public class EventHandler {
 
+    static boolean postinit = false;
+
     public static HashMap<Enchantment, ModifierId> ench2mod = new HashMap<>();
 
     static {
@@ -90,7 +92,11 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void onAnvilUpdate(AnvilUpdateEvent event){
-        System.out.println(event.getLeft().getItem());
+
+        if (!postinit){
+            Config.postInit();
+        }
+        //System.out.println(event.getLeft().getItem());
         if (event.getLeft().getItem() instanceof ModifiableItem ||
                 event.getLeft().getItem() instanceof ModifiableArmorItem ||
                 event.getLeft().getItem() instanceof ModifiableLauncherItem){
@@ -119,7 +125,7 @@ public class EventHandler {
                             toolStack.addModifier(ench2mod.get(enchantment), newLevel);
                             tcost += costOfLevel(enchantment, newLevel);
                         }
-                        else if (newLevel == curLevel && newLevel+1 <= Config.enchlvls.getOrDefault(enchantment, enchantment.getMaxLevel())){
+                        else if (newLevel == curLevel && newLevel+1 <= Config.COMMON.enchlvls.getOrDefault(enchantment, enchantment.getMaxLevel())){
                             if (curLevel>0)
                                 toolStack.removeModifier(ench2mod.get(enchantment), curLevel);
                             toolStack.addModifier(ench2mod.get(enchantment), newLevel+1);
@@ -131,8 +137,8 @@ public class EventHandler {
                         }
                     }
                     else{
-                        enchantmentsToBeApplied.put(enchantment,Math.min(enchantments.get(enchantment), Config.enchlvls.getOrDefault(enchantment, enchantment.getMaxLevel())));
-                        tcost += costOfLevel(enchantment, Math.min(enchantments.get(enchantment), Config.enchlvls.getOrDefault(enchantment, enchantment.getMaxLevel())));
+                        enchantmentsToBeApplied.put(enchantment,Math.min(enchantments.get(enchantment), Config.COMMON.enchlvls.getOrDefault(enchantment, enchantment.getMaxLevel())));
+                        tcost += costOfLevel(enchantment, Math.min(enchantments.get(enchantment), Config.COMMON.enchlvls.getOrDefault(enchantment, enchantment.getMaxLevel())));
                     }
                 }
 
@@ -146,7 +152,7 @@ public class EventHandler {
                         enchantmentsToBeApplied.put(enchantment, Math.min(enchantments.get(enchantment), leftEnchants.get(enchantment)));
                     }
                     else if (Objects.equals(leftEnchants.get(enchantment), enchantmentsToBeApplied.getOrDefault(enchantment, 0))){
-                        if (Config.enchlvls.getOrDefault(enchantment, enchantment.getMaxLevel()) < leftEnchants.get(enchantment) + 1){
+                        if (Config.COMMON.enchlvls.getOrDefault(enchantment, enchantment.getMaxLevel()) < leftEnchants.get(enchantment) + 1){
                             event.setCanceled(true);
                             return;
                         }

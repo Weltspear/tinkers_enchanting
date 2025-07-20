@@ -6,7 +6,6 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -22,12 +21,16 @@ public class TiCEnchMod
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    public static TiCEnchMod instance;
+
     public TiCEnchMod(){
+        instance = this;
 
-    }
+        FMLJavaModLoadingContext context = FMLJavaModLoadingContext.get();
 
-    public TiCEnchMod(FMLJavaModLoadingContext context)
-    {
+        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
+        Config.init();
+
         IEventBus modEventBus = context.getModEventBus();
 
         // Register the commonSetup method for modloading
@@ -40,11 +43,9 @@ public class TiCEnchMod
 
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
 
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-
         MixinBootstrap.init();
         Mixins.addConfiguration("mixins.te.json");
+
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
