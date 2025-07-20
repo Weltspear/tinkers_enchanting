@@ -6,11 +6,11 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import org.spongepowered.asm.launch.MixinBootstrap;
-import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mixins;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -22,6 +22,10 @@ public class TiCEnchMod
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    public TiCEnchMod(){
+
+    }
+
     public TiCEnchMod(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
@@ -32,9 +36,15 @@ public class TiCEnchMod
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-        //MixinBootstrap.init();
-        //Mixins.addConfiguration("mixins.te.json");
-        //Mixins.addConfiguration("mixins.te.json");
+        //modEventBus.addListener(TiCEnchMod::onEnchantmentLevelSet);
+
+        MinecraftForge.EVENT_BUS.register(EventHandler.class);
+
+        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
+        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
+        MixinBootstrap.init();
+        Mixins.addConfiguration("mixins.te.json");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

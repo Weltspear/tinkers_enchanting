@@ -4,8 +4,10 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.te.refmap.json",
   "mixins": [
+    "NBTHack",
     "TinkerEnchantModifiableArmor",
-    "TinkerEnchantModifiableItem"
+    "TinkerEnchantModifiableItem",
+    "TinkerEnchantModifiableLauncherItem"
   ],
   "injectors": {
     "defaultRequire": 1
