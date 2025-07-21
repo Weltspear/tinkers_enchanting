@@ -103,15 +103,13 @@ public class EventHandler {
             if (event.getRight().getItem() == ENCHANTED_BOOK){
                 Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(event.getRight());
 
-                int cur_cost = event.getCost();
-
                 Map<Enchantment, Integer> enchantmentsToBeApplied = new HashMap<>();
                 ItemStack leftToModify = event.getLeft().copy();
                 ToolStack toolStack = ToolStack.from(leftToModify);
 
+
+                // total cost
                 int tcost = 0;
-                
-                
 
                 for (Enchantment enchantment : enchantments.keySet()){
                     if (ench2mod.containsKey(enchantment)){
